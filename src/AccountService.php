@@ -6,7 +6,7 @@ use Program\ConsoleManager;
 
 class AccountService
 {
-    private $accountAction = [];
+    private $accountActions = [];
     private $balance = 0;
 
     /** @var ConsoleManager $consoleManager */
@@ -20,17 +20,17 @@ class AccountService
     public function deposit(\DateTime $dateTime, int $amount): void
     {
         $this->balance += $amount;
-        $this->accountAction[$dateTime->format('Y-m-d')]= [$amount, $this->balance];
+        $this->accountActions[]= [$dateTime->format(DateTime::ATOM), $amount, $this->balance];
     }
 
     public function printStatement(): void
     {
-        $this->consoleManager->printInConsole($this->accountAction);
+        $this->consoleManager->printInConsole($this->accountActions);
     }
 
     public function withdraw(\DateTime $dateTime, int $amount): void
     {
         $this->balance -= $amount;
-        $this->accountAction[$dateTime->format('Y-m-d')]= [-$amount, $this->balance];
+        $this->accountActions[]= [$dateTime->format(DateTime::ATOM), -$amount, $this->balance];
     }
 }
